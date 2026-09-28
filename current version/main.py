@@ -1,27 +1,29 @@
-from customtkinter import *
+import customtkinter as ctk
 import csv
 import json
+from pathlib import Path
 
-app = CTk()
+icon_path = Path(__file__).parent / "icon.ico"
+app = ctk.CTk()
 app.geometry("1280x720")
 app.title("To Do List")
-app.iconbitmap("icon.ico")
- 
+app.iconbitmap(icon_path)
+
 works = []
 
 class UI:
     def __init__(self):
-        self.entry = CTkEntry(app, placeholder_text="Type your works...", width=250)
+        self.entry = ctk.CTkEntry(app, placeholder_text="Type your works...", width=250)
         self.priority = []
-        self.scroll_frame = CTkScrollableFrame(app, width=330, height=320)
+        self.scroll_frame = ctk.CTkScrollableFrame(app, width=330, height=320)
 
         self.count_item = 0
-        self.button = CTkButton(
+        self.button = ctk.CTkButton(
             master=app, text="Start", corner_radius=45, width=200, height=60, font=("Arial", 20),
-            fg_color="#049EFD", hover_color="#0086C4", border_color="#07A1D4", border_width=1.5, command=self.hide_button
+            fg_color="#049EFD", hover_color="#0086C4", border_color="#07A1D4", border_width=2, command=self.hide_button
         )
 
-        self.add_button = CTkButton(app,text="Add",command=self.add_item)
+        self.add_button = ctk.CTkButton(app,text="Add",command=self.add_item)
 
     def start_button(self):
         self.button.place(relx=0.5, rely=0.5, anchor="center")
@@ -45,13 +47,13 @@ class UI:
 
         works.append(text)
 
-        item = CTkFrame(self.scroll_frame)
+        item = ctk.CTkFrame(self.scroll_frame)
         item.pack(fill="x", pady=4, padx=2)
 
-        label = CTkLabel(item, text=text, anchor="w")
+        label = ctk.CTkLabel(item, text=text, anchor="w")
         label.pack(side="left", padx=10, pady=5, expand=True, fill="x")
 
-        delete_button = CTkButton(
+        delete_button = ctk.CTkButton(
             item, text="✕", width=28, height=28, fg_color="red", hover_color="darkred", command=lambda: self.delete_item(item)
         )
         delete_button.pack(side="right", padx=5, pady=5)
@@ -63,9 +65,9 @@ class UI:
         
         if self.count_item == 0:
             self.count_item += 1            
-            self.finish_button = CTkButton(
+            self.finish_button = ctk.CTkButton(
                 master=app, text="finish", corner_radius=12, width=60, height=40, font=("Arial", 20),
-                fg_color="#2ED400", hover_color="#006605", border_color="#2ED400", border_width=1.5, command=self.finish_type
+                fg_color="#2ED400", hover_color="#006605", border_color="#2ED400", border_width=2, command=self.finish_type
             )
             self.finish_button.place(relx=0.365, rely=0.76, anchor="center")
         
@@ -78,7 +80,7 @@ class UI:
         self.select_works()
         
     def select_works(self):
-        self.combo_box = CTkComboBox(master=app,values=works,fg_color="#FFFFFF",border_color="#0962F1",
+        self.combo_box = ctk.CTkComboBox(master=app,values=works,fg_color="#FFFFFF",border_color="#0962F1",
         dropdown_fg_color="#FCFEFF",dropdown_hover_color="#4CADFC",command=self.selected)
         self.combo_box.place(relx = 0.5 , rely = 0.2, anchor = "center")
 
@@ -93,15 +95,15 @@ class UI:
         self.select_works()
 
     def export(self) :
-        self.export_as_json_button = CTkButton(
+        self.export_as_json_button = ctk.CTkButton(
             master=app, text="Export json", corner_radius=45, width=200, height=60, font=("Arial", 20),
-            fg_color="#8904FD", hover_color="#4F007D", border_color="#8904FD", border_width=1.5, command=self.export_json_button
+            fg_color="#8904FD", hover_color="#4F007D", border_color="#8904FD", border_width=2, command=self.export_json_button
         )
         self.export_as_json_button.place(relx=0.8, rely=0.4, anchor="center")
                 
-        self.export_as_csv_button = CTkButton(
+        self.export_as_csv_button = ctk.CTkButton(
             master=app, text="Export csv", corner_radius=45, width=200, height=60, font=("Arial", 20),
-            fg_color="#00A205", hover_color="#00610A", border_color="#00A205", border_width=1.5, command=self.export_csv_button
+            fg_color="#00A205", hover_color="#00610A", border_color="#00A205", border_width=2, command=self.export_csv_button
         )
         self.export_as_csv_button.place(relx=0.8, rely=0.6, anchor="center")
         
